@@ -1,5 +1,7 @@
-# fork addition:
+# Fork addition:
         - menu to open Root and Home directories
+
+![screenshot-3](https://raw.github.com/dentex/aFileChooser/master/screenshot-3.png) ![screenshot-4](https://raw.github.com/dentex/aFileChooser/master/screenshot-4.png)
 
 # aFileChooser - Android File Chooser
 

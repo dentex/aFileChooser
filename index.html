@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Afilechooser by dentex</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Afilechooser</h1>
+        <h2>Android library that provides a file explorer to let users select files on external storage _ fork</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/dentex/aFileChooser/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/dentex/aFileChooser/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/dentex/aFileChooser" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="fork-addition" class="anchor" href="#fork-addition"><span class="octicon octicon-link"></span></a>Fork addition:</h1>
+
+<pre><code>    - menu to open Root and Home directories
+</code></pre>
+
+<p><img src="https://raw.github.com/dentex/aFileChooser/master/screenshot-3.png" alt="screenshot-3"><img src="https://raw.github.com/dentex/aFileChooser/master/screenshot-4.png" alt="screenshot-4"></p>
+
+<h1>
+<a name="afilechooser---android-file-chooser" class="anchor" href="#afilechooser---android-file-chooser"><span class="octicon octicon-link"></span></a>aFileChooser - Android File Chooser</h1>
+
+<p>aFileChooser is an <strong>Android Library Project</strong> that simplifies the process of presenting a file chooser.</p>
+
+<p>Intents provide the ability to hook into third-party app components for content selection. This works well for media files, but if you want users to be able to select <em>any</em> file, they must have an existing File Explorer app installed. Because many Android devices don't have stock File Explorers, the developer must often instruct the user to install one, or build one, themselves. aFileChooser solves this issue.</p>
+
+<h3>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features:</h3>
+
+<ul>
+<li>Full file explorer</li>
+<li>Simplify <code>GET_CONTENT</code> Intent creation</li>
+<li>Easily convert a <code>Uri</code> into a <code>File</code>
+</li>
+<li>Determine MIME data types</li>
+<li>Follows Android conventions (Fragments, Loaders, Intents, etc.) </li>
+</ul><p><img src="https://raw.github.com/iPaulPro/aFileChooser/master/screenshot-1.png" alt="screenshot-1"><img src="https://raw.github.com/iPaulPro/aFileChooser/master/screenshot-2.png" alt="screenshot-2"></p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add aFileChooser to your project as an <a href="http://developer.android.com/guide/developing/projects/projects-eclipse.html#ReferencingLibraryProject">Android Library Project</a>.</p>
+
+<p>Add <code>FileChooserActivity</code> to your project's AndroidManifest.xml file with a fully-qualified <code>name</code>. The <code>label</code> and <code>icon</code> set here will be shown in the "Intent Chooser" dialog.</p>
+
+<p><strong>Important</strong> <code>FileChooserActivity</code> must have the <code>&lt;intent-filter&gt;</code> set as follows:</p>
+
+<pre><code>&lt;activity
+    android:name="com.ipaulpro.afilechooser.FileChooserActivity"
+    android:icon="@drawable/ic_chooser"
+    android:label="@string/chooser_label" &gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="android.intent.action.GET_CONTENT" /&gt;
+
+        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+        &lt;category android:name="android.intent.category.OPENABLE" /&gt;
+
+        &lt;data android:mimeType="*/*" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Use <code>startActivityForResult(Intent, int)</code> to launch the "Intent Chooser" dialog (shown below), or <code>FileChooserActivity</code> directly. <code>FileChooserActivity</code> returns the <code>Uri</code> of the file selected as the <code>Intent</code> data in <code>onActivityResult(int, int, Intent)</code>.</p>
+
+<pre><code>private static final int REQUEST_CHOOSER = 1234;
+
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    Intent getContentIntent = FileUtils.createGetContentIntent();
+    Intent intent = Intent.createChooser(getContentIntent, "Select a file");
+    startActivityForResult(intent, REQUEST_CHOOSER);
+}
+
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode) {
+        case REQUEST_CHOOSER:   
+            if (resultCode == RESULT_OK) {  
+                final Uri uri = data.getData();
+                File file = FileUtils.getFile(uri);
+            }
+    }
+}
+</code></pre>
+
+<p>A more robust example can be found in the aFileChooserExample folder.</p>
+
+<p><strong>Note</strong> The <code>FileUtils</code> class provides a helper method to construct an <code>ACTION_GET_CONTENT</code> Intent (<code>FileUtils.createGetContentIntent()</code>). It also contains a method to convert a <code>Uri</code> into a <code>File</code> (<code>FileUtils.getFile(Uri)</code>).</p>
+
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<p>Developed by Paul Burke (iPaulPro) - <a href="http://paulburke.co/">paulburke.co</a></p>
+
+<p>Translations by Thomas Taschauer (TomTasche) - <a href="http://tomtasche.at">tomtasche.at</a></p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<pre><code>Copyright (C) 2011 - 2013 Paul Burke
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+---
+
+FileUtils.java, MimeTypeParser.java and MimeTypes.java:
+
+Copyright (C) 2007-2008 OpenIntents.org
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
